@@ -26,8 +26,7 @@ import datetime
 import random
 
 logger = logging.getLogger('soundLevelMeter')
-#hdlr = logging.FileHandler('/home/pi/sa/log_soundLevel.log')
-LOG_FILENAME = '/home/pi/sa/log_new_soundLevel.log'
+LOG_FILENAME = '/home/pi/soundLevelMeter/log_soundLevel.log'
 handler = logging.handlers.RotatingFileHandler(LOG_FILENAME, maxBytes=200*1024*1024, backupCount=5 )
 formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 handler.setFormatter(formatter)
