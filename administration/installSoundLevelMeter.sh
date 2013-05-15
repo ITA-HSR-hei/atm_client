@@ -11,7 +11,7 @@ sleep 1
 
 
 if [[ "$WHO_AM_I" != "root" ]]; then
-	echo "You must be root to install soundLevelMeter"
+	echo "You must be root to run this script!!!"
 	exit 1
 fi
 
@@ -21,7 +21,7 @@ CRON_ENTRY="* * * * * ${SOUND_LEVEL_HOME}/administration/checkForUpdates.sh >> $
 TEMP_FILE=/tmp/temp_crontab_entries.txt
 
 crontab -l -u root | grep -v "checkForUpdates.sh" > $TEMP_FILE
-echo $CRON_ENTRY >> $TEMP_FILE
+echo "$CRON_ENTRY" >> $TEMP_FILE
 crontab -u root $TEMP_FILE
 
 
