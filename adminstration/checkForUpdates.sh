@@ -1,7 +1,7 @@
 #!/bin/bash
 # Add this script to the crontab as root user
 # sudo crontab -e
-# 0 * * * * /home/pi/soundLevelMeterAdministration/checkForUpdates.sh &> /home/pi/soundLevelMeter/logs
+# 0 * * * * /home/pi/soundLevelMeter/administration/checkForUpdates.sh &>> /home/pi/soundLevelMeter/logs/checkForUpdates.log
 
 
 
