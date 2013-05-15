@@ -1,11 +1,10 @@
 #!/bin/bash
-# Add this script to the crontab as root user
-# sudo crontab -e
-# 0 1 * * */home/pi/soundLevelMeter/administration/checkForUpdates.sh >> /home/pi/soundLevelMeter/logs/checkForUpdates.log 2>&1
+
+SOUND_LEVEL_HOME=/home/pi/soundLevelMeter
 
 echo ""
 echo ---------------Check For Updates---------------
-cd /home/pi/soundLevelMeter
+cd $SOUND_LEVEL_HOME
 
 echo -n "Date: "
 date
@@ -20,7 +19,7 @@ else
         sudo git fetch --all
         sudo git reset --hard origin/master
 		
-		cp /administration/soundLevelMeterStart.sh /etc/init.d
+		cp $SOUND_LEVEL_HOME/administration/soundLevelMeterStart.sh /etc/init.d
 				
 		echo "INFO: Restart in 10 seconds"
 		echo -----------------------------------------------
