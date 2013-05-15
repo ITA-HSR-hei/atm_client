@@ -15,7 +15,6 @@ if [[ "$WHO_AM_I" != "root" ]]; then
 	exit 1
 fi
 
-
 upToDate=$(git remote show origin | grep "local out of date")
 
 if [[ -z "$upToDate" ]]; then
@@ -27,7 +26,7 @@ else
         git reset --hard origin/master
 		
 		cp $SOUND_LEVEL_HOME/administration/soundLevelMeterStart.sh /etc/init.d
-				
+		
 		echo "INFO: Restart in 10 seconds"
 		echo -----------------------------------------------
 		sleep 10
