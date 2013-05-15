@@ -16,7 +16,7 @@ if [[ -z "$upToDate" ]]; then
         echo "INFO: No changes - SoundLevelMeter is up to date"
 		echo -----------------------------------------------
 else
-        echo "INFO: Changes available - Fetsch new data and restart"
+        echo "INFO: Changes available - Fetch new data and restart"
         sudo git fetch --all
         sudo git reset --hard origin/master
 		
