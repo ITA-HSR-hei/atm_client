@@ -9,10 +9,10 @@ echo -n "Date: " >> $START_LOG
 
 
 #Check if 
-diff -q $SOUND_LEVEL_HOME/administration/checkForUpdates.sh $SOUND_LEVEL_HOME/checkForUpdatesLocalFile.sh 1>/dev/null
+diff -q $SOUND_LEVEL_HOME/administration/checkForUpdates.sh $SOUND_LEVEL_HOME/administration/local_checkForUpdates.sh >> $START_LOG 2>&1
 if [[ $? -ne 0 ]]; then
-	echo "INFO: There was an update in checkForUpdates.sh replace local copy"
-	cp $SOUND_LEVEL_HOME/administration/checkForUpdates.sh $SOUND_LEVEL_HOME/administration/checkForUpdatesLocalFile.sh
+	echo "INFO: There was an update in checkForUpdates.sh replace local copy" >> $START_LOG
+	cp $SOUND_LEVEL_HOME/administration/checkForUpdates.sh $SOUND_LEVEL_HOME/administration/local_checkForUpdates.sh >> $START_LOG 2>&1
 fi
 
 

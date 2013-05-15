@@ -17,11 +17,11 @@ if [[ "$WHO_AM_I" != "root" ]]; then
 fi
 
 echo "INFO: Add local checkForUpdates file"
-cp $SOUND_LEVEL_HOME/administration/checkForUpdates.sh $SOUND_LEVEL_HOME/administration/checkForUpdatesLocalFile.sh
+cp $SOUND_LEVEL_HOME/administration/checkForUpdates.sh $SOUND_LEVEL_HOME/administration/local_checkForUpdate.sh
  
 echo "INFO: Add cronjob which checks for updates"
 
-CRON_ENTRY="0 1 * * * ${SOUND_LEVEL_HOME}/administration/checkForUpdatesLocalFile.sh >> ${SOUND_LEVEL_HOME}/logs/checkForUpdates.log 2>&1"
+CRON_ENTRY="0 1 * * * ${SOUND_LEVEL_HOME}/administration/local_checkForUpdates.sh >> ${SOUND_LEVEL_HOME}/logs/checkForUpdates.log 2>&1"
 TEMP_FILE=/tmp/temp_crontab_entries.txt
 
 crontab -l -u root | grep -v "checkForUpdates.sh" > $TEMP_FILE
