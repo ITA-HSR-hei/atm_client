@@ -30,5 +30,5 @@ else
 		echo "INFO: Restart in 10 seconds"
 		echo -----------------------------------------------
 		sleep 10
-		reboot -f
+		sudo reboot -f
 fi
