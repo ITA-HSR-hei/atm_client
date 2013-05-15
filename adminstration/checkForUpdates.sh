@@ -15,5 +15,8 @@ else
         echo "Changes available - Fetsch new data and restart"
         sudo git fetch --all
         sudo git reset --hard origin/master
-        sudo reboot -f
+        
+		echo "INFO: Restart in 10 seconds"
+		sleep 10
+		sudo reboot -f
 fi
