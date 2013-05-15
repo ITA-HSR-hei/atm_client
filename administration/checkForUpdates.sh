@@ -11,7 +11,7 @@ echo -n "Date: "
 date
 
 if [[ "$WHO_AM_I" != "root" ]]; then
-	echo "You must be root to run this script!!!"
+	echo "!!!You must be root to run this script!!!"
 	exit 1
 fi
 
