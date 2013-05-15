@@ -16,6 +16,8 @@ else
         sudo git fetch --all
         sudo git reset --hard origin/master
         
+		chmod +x administration/checkForUpdates.sh
+		
 		echo "INFO: Restart in 10 seconds"
 		sleep 10
 		sudo reboot -f
