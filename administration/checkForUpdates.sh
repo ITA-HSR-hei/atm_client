@@ -14,13 +14,14 @@ upToDate=$(sudo git remote show origin | grep "local out of date")
 
 if [[ -z "$upToDate" ]]; then
         echo "INFO: No changes - SoundLevelMeter is up to date"
+		echo -----------------------------------------------
 else
         echo "INFO: Changes available - Fetsch new data and restart"
         sudo git fetch --all
         sudo git reset --hard origin/master
 		
 		echo "INFO: Restart in 10 seconds"
+		echo -----------------------------------------------
 		sleep 10
 		sudo reboot -f
 fi
-echo -----------------------------------------------
