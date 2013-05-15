@@ -10,7 +10,7 @@ echo "INFO: Start install script"
 sleep 1
 
 
-if [[ "$WHO_AM_I" != "root"]]; then
+if [[ "$WHO_AM_I" != "root" ]]; then
 	echo "You must be root to install soundLevelMeter"
 	exit 1
 fi
