@@ -25,8 +25,9 @@ echo $CRON_ENTRY >> $TEMP_FILE
 crontab -u root $TEMP_FILE
 
 
-echo -n "INFO: add soundLevelMeter script to startup routine"
+echo "INFO: add soundLevelMeter script to startup routine"
 cp "${SOUND_LEVEL_HOME}/administration/soundLevelMeterStart.sh" /etc/init.d
+
 update-rc.d /etc/init.d/soundLevelMeterStart.sh defaults 
 
 echo -n "INFO: Finished install script"
