@@ -100,7 +100,7 @@ with i2c.I2CMaster() as bus:
 			payload = {"stationId": stationId, "timestamp": timestamp, "soundlevel": average}
 			logger.debug("Send data: "+ str(payload))
 			headers = { 'content-type': "application/json"}
-			r= requests.post("http://atmng.cnlab.ch:8080/atm/public/0/receiveData", data=json.dumps(payload), headers=headers, timeout=2)
+			r= requests.post("http://atmng.cnlab.ch/atm/public/0/receiveData", data=json.dumps(payload), headers=headers, timeout=2)
 
 		except Exception as e:
 			logger.error(str(e))
