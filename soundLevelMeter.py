@@ -25,6 +25,7 @@ import sys
 import datetime
 import random
 
+#Logfile
 logger = logging.getLogger('soundLevelMeter')
 LOG_FILENAME = '/home/pi/soundLevelMeter/logs/soundLevelMeter.log'
 handler = logging.handlers.RotatingFileHandler(LOG_FILENAME, maxBytes=200*1024*1024, backupCount=5 )
@@ -33,9 +34,17 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
 
+
 offsetTime=random.random()*1e6
+stationId=''
+
+#webpageGetId='http://152.96.193.217:8080/atm-webapp/public/0/getIdFromMac'
+webpageGetId='http://atmng.cnlab.ch/atm/public/0/getIdFromMac'
+#webpageReceiveData='http://152.96.193.217:8080/atm-webapp/public/0/receiveData'
+webpageReceiveData='http://atmng.cnlab.ch/atm/public/0/receiveData'
 
 
+#i2c Bus Config
 adc_address1 = 0x68
 adc_address2 = 0x69
 
@@ -65,14 +74,36 @@ with i2c.I2CMaster() as bus:
 		now=datetime.datetime.now()
 
 		sleepUntilStart=(1e6+offsetTime - now.microsecond)%1e6
-		logger.debug("Time until offset reached (sleep Time):" + str(sleepUntilStart/1e6) + " second")
+		#logger.debug("Time until offset reached (sleep Time):" + str(sleepUntilStart/1e6) + " second")
 		time.sleep(sleepUntilStart/1e6)
 	
 	time.sleep(5)
 	print("***** Sound Level Meter started *****")
 	logger.info("***** Sound Level Meter started *****")	
 	changechannel(adc_address1, 0x9C)
+	
+	while True:
+		try:
+			macAddress = open('/sys/class/net/eth0/address').readline()
+			macAddress = macAddress.rstrip('\n')
+			payloadMacAddress={'macAddress': str(macAddress)}
+			r = requests.get(webpageGetId, params=payloadMacAddress)
+			
+			if (r.status_code == 200):
+				responseForId=json.loads(r.text)
+				stationId=responseForId['id']
+				logger.info("Received Id for this MeasureStation! MAC-Address is: " + str(macAddress)+" received id: "+str(stationId))
+				break
+			else:
+				logger.error("Returned status code was: "+str(r.status_code))
+				logger.error("Returned text message was: "+str(r.text))
+				time.sleep(60)
 
+		except Exception as e:
+			logger.error(str(e))
+			time.sleep(60)
+	
+	
 	while True:
 		try:
 				
@@ -87,20 +118,17 @@ with i2c.I2CMaster() as bus:
 		
 
 			
-			#print("now: "+ str(time.time()))
-			#print("")
 			sleepUntilOffsetReached()
 			average = sum(measurements) / len(measurements)
 			timestamp=int(time.time()*1000)
-			stationId = 2
 			
 			if (average < 0 or average > 2000):
-				soundLevelInDb=-1
+				logger.error("Sound Level value is wrong! Microphone is probalby not pluged in!, SoundLevel was: "+str(average))
 			
 			payload = {"stationId": stationId, "timestamp": timestamp, "soundlevel": average}
 			logger.debug("Send data: "+ str(payload))
 			headers = { 'content-type': "application/json"}
-			r= requests.post("http://atmng.cnlab.ch/atm/public/0/receiveData", data=json.dumps(payload), headers=headers, timeout=2)
+			r= requests.post(webpageReceiveData, data=json.dumps(payload), headers=headers, timeout=5)
 
 		except Exception as e:
 			logger.error(str(e))
@@ -120,4 +148,3 @@ with i2c.I2CMaster() as bus:
 #               print ("Channel 7 :%02f" % getadcreading(adc_address2))
 #               changechannel(adc_address2, 0xFC)
 #               print ("Channel 8: %02f" % getadcreading(adc_address2))
-
